@@ -1,0 +1,39 @@
+{
+  "name": "fontpath-canvas",
+  "version": "0.0.0",
+  "description": "Draws fontpath shapes to HTML5 canvas context",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mattdesl/fontpath-canvas"
+  },
+  "keywords": [
+    "canvas",
+    "fontpath",
+    "font",
+    "glyph",
+    "text",
+    "shape",
+    "vector",
+    "html5",
+    "context",
+    "draw"
+  ],
+  "author": "Matt DesLauriers",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mattdesl/fontpath-canvas/issues"
+  },
+  "homepage": "https://github.com/mattdesl/fontpath-canvas",
+  "devDependencies": {
+    "canvas-testbed": "0.0.2",
+    "fontpath-test-fonts": "0.0.2"
+  },
+  "dependencies": {
+    "fontpath-util": "0.0.1",
+    "fontpath-test-fonts": "0.0.3"
+  }
+}
