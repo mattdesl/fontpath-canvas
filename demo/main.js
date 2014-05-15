@@ -1,8 +1,8 @@
 var test = require('canvas-testbed');
-// var TestFont = require('fontpath-test-fonts/lib/OpenBaskerville-0.0.75.ttf');
+var TestFont = require('fontpath-test-fonts/lib/OpenBaskerville-0.0.53.otf');
 // var TestFont = require('./Unisans.json');
 // var TestFont = require('./Ubuntu.json');
-var TestFont = require('./Arial.json');
+// var TestFont = require('./Arial.json');
 // var TestFont = require('./Serif1.json');
 
 var text = "Lorem ipsum dolor sit amet, \nconsectetur adipiscing elit. \nPellentesque blandit dictum tortor, \nsed bibendum enim suscipit et. \nMauris magna sapien, pellentesque a \nauctor id, vulputate id enim.";
