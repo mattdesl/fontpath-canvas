@@ -46,6 +46,6 @@ function render(context, width, height) {
     context.fill();
 }
 
-test(render, undefined, { once: false });
+test(render, undefined, { once: true });
 
 // test(render, undefined, { once: true });
