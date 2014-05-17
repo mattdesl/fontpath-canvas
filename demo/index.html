@@ -1,0 +1,41 @@
+<html>
+	<head>
+		<style>
+		@font-face {
+		  font-family: 'OpenBaskerville';
+		  src: url('OB.ttf');
+		  font-weight: normal;
+		  font-style: normal;
+		}
+		@font-face {
+		  font-family: 'ArialNarrow';
+		  src: url('ArialNarrow.ttf');
+		  font-weight: normal;
+		  font-style: normal;
+		}
+
+
+		span {
+			/*font-family: 'OpenBaskerville';*/
+			font-family: 'ArialNarrow';
+			font-size: 60pt;
+			z-index: -10;
+			line-height: 1em;
+			-webkit-font-smoothing: antialiased;
+		}
+		canvas {
+			z-index: 10;
+			position: absolute;
+			top: 0;
+			left: 0;
+		}
+		</style>
+		<script src="/-/live-reload.js"></script>
+	    <script src="main.js"></script>
+	</head>
+
+	<body>
+
+		<span>Lorem ipsum dolor sit amet,<br>consectetur adipiscing elit.</span>
+	</body>
+</html>

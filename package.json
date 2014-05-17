@@ -29,7 +29,7 @@
   },
   "homepage": "https://github.com/mattdesl/fontpath-canvas",
   "devDependencies": {
-    "canvas-testbed": "0.0.2",
+    "canvas-testbed": "0.0.3",
     "fontpath-test-fonts": "0.0.2"
   },
   "dependencies": {

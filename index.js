@@ -77,7 +77,7 @@ module.exports.drawText = function (context, font, text, x, y, fontSize, start, 
             var ty = itr.pen.y;
 
             var hbx = Math.round(glyph.hbx*scale);
-            this.drawGlyph(context, glyph, scale, tx - hbx, ty);
+            this.drawGlyph(context, glyph, scale, tx, ty);
         }            
 
         //Advance the iterator to the next glyph in the string

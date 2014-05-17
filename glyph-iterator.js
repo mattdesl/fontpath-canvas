@@ -25,8 +25,8 @@ Object.defineProperty(GlyphIterator.prototype, "font", {
 
         //Determine the new scaling factor...
         if (font) {
-            this.fontScale = util.getScale(font, this.fontSize);
-            this.lineHeight = Math.round(font.height*this.fontScale);
+            this.fontScale = util.getPxScale(font, this.fontSize);
+            this.lineHeight = (font.height*this.fontScale);
         }
     },
 });
@@ -41,8 +41,8 @@ Object.defineProperty(GlyphIterator.prototype, "fontSize", {
 
         //If the font is already set, determine the new scaling factor
         if (this._font) {
-            this.fontScale = util.getScale(this._font, this._fontSize);
-            this.lineHeight = Math.round(this.font.height*this.fontScale);
+            this.fontScale = util.getPxScale(this._font, this._fontSize);
+            this.lineHeight = (this.font.height*this.fontScale);
         }
     },
 });
@@ -73,6 +73,8 @@ GlyphIterator.prototype.begin = function(x, y) {
 
 GlyphIterator.prototype.end = function() {
     //.. mainly for consistency with begin()
+    var font = this.font;
+    console.log(font.height, font.ascender, font.descender);
 };
 
 GlyphIterator.prototype.translate = function(x, y) {
@@ -91,6 +93,8 @@ GlyphIterator.prototype.step = function(text, index) {
 
     //Jump down to next line
     if (this.multiline && chr === '\n') {
+        // this.pen.y += 0 + ((font.ascender - font.descender)*this.fontScale);
+        // this.pen.y += ((font.ascender - font.descender)*this.fontScale + 20);
         this.pen.y += this.lineHeight;
         this.pen.x = this.origin.x;
         return;
@@ -105,7 +109,7 @@ GlyphIterator.prototype.step = function(text, index) {
     //If we have a char to the left, determine its kerning
     if (index > 0 && this.kerning) {
         var kern = this.getKerning(text.charAt(index-1), chr);
-        this.pen.x += Math.round(kern*scale);
+        this.pen.x += (kern*scale);
     }
 
     return glyph;
@@ -119,7 +123,7 @@ GlyphIterator.prototype.step = function(text, index) {
  */
 GlyphIterator.prototype.advance = function(glyph) {
     // Advance to next pen position
-    this.pen.x += Math.round(glyph.xoff * this.fontScale);
+    this.pen.x += (glyph.xoff * this.fontScale);
 };
 
 module.exports = GlyphIterator;
