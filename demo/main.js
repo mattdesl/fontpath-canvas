@@ -8,11 +8,18 @@ var test = require('canvas-testbed');
 var TestFont = require('./Serif1.json');
 
 // var text = "Lorem ipsum dolor sit amet,\nconsectetur adipiscing elit.\nPellentesque blandit dictum tortor,\nsed bibendum enim suscipit et.\nMauris magna sapien, pellentesque a\nauctor id, vulputate id enim.";
-var text = "Lorem\nipsum";
+// var text = "Lorem\nipsum dolor";
 // var text = 'Lorem ipsum dolor\nsit amet,\nconsectetur adipiscing elit.';
 
-// var text = "Lorem ipsum dolor sit amet, \nconsectetur adipiscing elit. \nPellentesque blandit dictum tortor, \nsed bibendum enim suscipit et. \nMauris magna sapien, pellentesque a \nauctor id, vulputate id enim.".replace(/\n/g, '');
+// var text = "Lorem ipsum dolor sit amet, \nconsectetur adipiscing elit. \nPellentesque blandit dictum tortor, \nsed bibendum enim suscipit et. \nMauris magna sapien, pellentesque a \nauctor id, vulputate id enim.";
+var text = "Lorem\nipsum dolor sit amet,";
 
+var text = 'var c=document.getElementById("myCanvas");\n \
+\tvar ctx=c.getContext("2d");\n \
+\tctx.beginPath();\n \
+\tctx.moveTo(20,20);\n \
+\tctx.bezierCurveTo(20,100,200,100,200,20);\n \
+ctx.stroke();\n';
 
 var CanvasUtil = require('../index.js');
 var util = require('../util');
@@ -26,8 +33,8 @@ var GlyphIterator = require('../glyph-iterator');
 
 var ctx;
 
-
-var CanvasRenderer = require('../TriangleRenderer');
+var CanvasRenderer = require('../CanvasRenderer');
+var TriangleRenderer = require('../TriangleRenderer');
 
 
 // var textRenderer = new TextRenderer();
@@ -41,14 +48,23 @@ var CanvasRenderer = require('../TriangleRenderer');
 // };
 
 // var fontSize = util.pointToPixel(60); 
-var fontSize = 185; //+ ((Math.sin(time)/2+0.5)*30);
+var fontSize = 32; //+ ((Math.sin(time)/2+0.5)*30);
+var wrapWidth = undefined;
 
-var textRenderer = new CanvasRenderer();
+var textRenderer = new TriangleRenderer();
 textRenderer.font = TestFont;
 textRenderer.fontSize = fontSize;
 textRenderer.text = text;
-textRenderer.layout();
-textRenderer.align = CanvasRenderer.Align.CENTER;
+textRenderer.layout(wrapWidth);
+textRenderer.align = CanvasRenderer.Align.LEFT;
+
+// var pathRenderer = new CanvasRenderer();
+// pathRenderer.font = TestFont;
+// pathRenderer.fontSize = fontSize;
+// pathRenderer.text = text;
+// pathRenderer.layout();
+// pathRenderer.align = CanvasRenderer.Align.CENTER;
+
 
 var itr = new GlyphIterator(TestFont);
 
@@ -79,27 +95,36 @@ function render(context, width, height) {
 
     var scale = itr.fontScale;
 
-    var x = 10,
-        y = textRenderer.getBounds().height;
+    var x = 0,
+        y = textRenderer.getBounds().height+100;
 
-    // context.fillRect(x, y, 5, 5);
+    context.fillRect(x, y, wrapWidth, 10);
+    // context.strokeRect(x, y, , 5);
 
     context.fillStyle = 'black';
+    context.lineWidth = 1;
 
-    textRenderer.animation = 0.75
-    textRenderer.animationOrigin.set(mouse.x, mouse.y);
+    // textRenderer.animation = 0.75
+    // textRenderer.animationOrigin.set(mouse.x, mouse.y);
     // var bounds = textRenderer.getBounds(true);
     
-    context.fillStyle = 'red';
-    textRenderer.fill(context, x, y, 0, 3);
+    // context.fillStyle = 'black';
+    // textRenderer.stroke(context, x, y, 0, 3);
 
-    context.fillStyle = 'black';
-    textRenderer.fill(context, x, y, 3, 6);
+    // context.fillStyle = 'red';
+    // textRenderer.fill(context, x, y, 3, 6);
 
-    context.fillStyle = 'black';
-    textRenderer.stroke(context, x, y, 6, text.length);
+    // context.fillStyle = 'black';
+    // textRenderer.fill(context, x, y, 6, 11);
+
+    // context.fillStyle = 'gray';
+    // pathRenderer.fill(context, x, y, 11, 14);
+
+    // context.lineWidth = 2;
+    // context.lineJoin = 'round';
+    textRenderer.fill(context, x, y);
 }
 
-test(render, undefined, { once: false });
+test(render, undefined, { once: true });
 
 // test(render, undefined, { once: true });
