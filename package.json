@@ -30,7 +30,7 @@
   "homepage": "https://github.com/mattdesl/fontpath-canvas",
   "devDependencies": {},
   "dependencies": {
-    "fontpath-renderer": "0.0.1"
+    "fontpath-renderer": "^0.1.0"
   },
   "optionalDependencies": {
     "fontpath-test-fonts": "0.0.4",
