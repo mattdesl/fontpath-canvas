@@ -1,30 +1,15 @@
-var util = require('fontpath-util');
-var getScale = require('./util').getScale;
+var TextRenderer = require('fontpath-renderer');
 
-
-var funcs = {
-    'm': 'moveTo',
-    'l': 'lineTo',
-    'q': 'quadraticCurveTo',
-    'c': 'bezierCurveTo'
-};
-
-
-var GlyphIterator = require('./glyph-iterator');
-var itr = new GlyphIterator();
-
-module.exports.scaleToFont = function(context, font, fontSize) {
-    var pointScale = getScale(font, fontSize);
-    context.transform(pointScale, 0, 0, -pointScale, 0, 0);
-    return pointScale;
-};
-
+var MOVETO = 'm',
+	LINETO = 'l',
+	QUADTO = 'q',
+	CUBICTO = 'c';
 
 /**
  * Draws a glyph as a series of path operations (moveTo, bezierCurveTo, etc),
  * with the optional translation and scaling applied. 
  */
-module.exports.drawGlyph = function(context, glyph, scale, x, y) {
+ function decomposeGlyph(context, glyph, scale, x, y) {
     if (!glyph.path || glyph.path.length===0)
         return;
 
@@ -36,54 +21,60 @@ module.exports.drawGlyph = function(context, glyph, scale, x, y) {
     for (var i=0; i<path.length; i++) {
         var p = path[i];
         var f = p[0];
-        if (f==='m') 
+        if (f===MOVETO) 
             context.moveTo(p[1]*scale+x, p[2]*-scale+y);
-        else if (f==='l') 
+        else if (f===LINETO) 
             context.lineTo(p[1]*scale+x, p[2]*-scale+y);
-        else if (f==='q') 
+        else if (f===QUADTO) 
             context.quadraticCurveTo(p[1]*scale+x, p[2]*-scale+y, p[3]*scale+x, p[4]*-scale+y);
-        else if (f==='c') 
+        else if (f===CUBICTO) 
             context.bezierCurveTo(p[1]*scale+x, p[2]*-scale+y, p[3]*scale+x, p[4]*-scale+y, p[5]*scale+x, p[6]*-scale+y);
     }
 };
 
-module.exports.drawText = function (context, font, text, x, y, fontSize, start, end) {
-    //setup the iterator for our desired font...
-    itr.font = font;
-    itr.fontSize = fontSize;
-    itr.lineHeight = fontSize+0;
-    // itr.kerning = false;
+function CanvasRenderer(font, fontSize) {
+	TextRenderer.call(this, font, fontSize);
+	this.context = null;
+	this.strokeUnderline = false;
+}
 
-    start = start||0;
-    end = typeof end === "number" ? end : text.length;
+//inherits from TextRenderer
+CanvasRenderer.prototype = Object.create(TextRenderer.prototype);
+CanvasRenderer.constructor = CanvasRenderer;
 
-    var scale = itr.fontScale;
+//export static members..
+CanvasRenderer.Align = TextRenderer.Align;
+CanvasRenderer.decomposeGlyph = decomposeGlyph;
 
-    //At this point we may want to grab the bounds using the iterator
-    //Then determine alignment and so forth.
-
-    //set the origin and pen position
-    itr.begin(x, y);
-
-    for (var i=0; i<text.length; i++) {
-        //Step the iterator; determines new line position
-        var glyph = itr.step(text, i);
-
-        if (!glyph)
-            continue;
-
-        if (i >= start && i < end) {
-            var tx = itr.pen.x;
-            var ty = itr.pen.y;
-
-            var hbx = Math.round(glyph.hbx*scale);
-            this.drawGlyph(context, glyph, scale, tx, ty);
-        }            
-
-        //Advance the iterator to the next glyph in the string
-        itr.advance(glyph);
-    }
-
-    //finish the iterator...
-    itr.end();
+CanvasRenderer.prototype.renderGlyph = function(chr, glyph, scale, x, y) {
+	decomposeGlyph(this.context, glyph, scale, x, y);
 };
+
+CanvasRenderer.prototype.renderUnderline = function(x, y, width, height) {
+	this.context.rect(x, y, width, height);
+	//Styling the underline a different colour might be a bit tricky.
+	//ideally we want to submit all the paths in a single fill...
+};
+
+CanvasRenderer.prototype.fill = function(context, x, y, start, end) {
+	if (!context)
+		throw "fill() must be specified with a canvas context";
+	this.context = context;
+	this.strokeUnderline = false;
+	context.beginPath();
+	this.render(x, y, start, end);
+	context.fill();
+};
+
+CanvasRenderer.prototype.stroke = function(context, x, y, start, end) {
+	if (!context)
+		throw "stroke() must be specified with a canvas context";
+	this.context = context;
+	this.strokeUnderline = true;
+	context.beginPath();
+	this.render(x, y, start, end);
+	context.stroke();
+};
+
+
+module.exports = CanvasRenderer;
