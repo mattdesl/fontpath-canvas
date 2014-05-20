@@ -1,8 +1,8 @@
-A canvas implementation of [fontpath-renderer](https://github.com/mattdesl/fontpath-renderer), using HTML5 canvas paths.
+A canvas implementation of [fontpath-renderer](https://github.com/mattdesl/fontpath-renderer), using HTML5 2D canvas.
 
-Path rendering is pretty fast in most renderers, especially since we submit all the fill/stroke operations in a single call; but with complex glyphs and large chunks of text it may not be optimal. Regardless; you should generally aim to cache the results to an off-screen canvas, until the next time the text changes.
+This renders glyphs by decomposing their vector paths from [fontpath](https://github.com/mattdesl/fontpath) into `moveTo`, `lineTo`, etc. operations for the canvas context. This keeps it crisp for large sizes, but degrades at smaller sizes, and also presents a performance penalty. Generally this implementation is best suited for large fonts; and can be optimized by caching the paths to an off-screen canvas.
 
-For hinted and more optimized [fontpath](https://github.com/mattdesl/fontpath) rendering with 2D Canvas, bitmap fonts would be worth exploring.
+For more optimized rendering (with hinting), bitmap fonts would be worth exploring.
 
 # usage
 
