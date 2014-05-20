@@ -1,6 +1,6 @@
 {
   "name": "fontpath-canvas",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Draws fontpath shapes to HTML5 canvas context",
   "main": "index.js",
   "scripts": {
