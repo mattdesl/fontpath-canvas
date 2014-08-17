@@ -2,7 +2,7 @@
 
 [![experimental](http://badges.github.io/stability-badges/dist/experimental.svg)](http://github.com/badges/stability-badges)
 
-A canvas implementation of [fontpath-simple-renderer](https://github.com/mattdesl/fontpath-simple-renderer), using HTML5 2D canvas.
+An implementation of [fontpath-simple-renderer](https://github.com/mattdesl/fontpath-simple-renderer), using HTML5 2D canvas.
 
 This renders glyphs by decomposing their vector paths from [fontpath](https://github.com/mattdesl/fontpath) into `moveTo`, `lineTo`, etc. operations for the canvas context. This keeps it crisp for large sizes, but degrades at smaller sizes, and also presents a performance penalty. Generally this implementation is best suited for large fonts; and can be optimized by caching the paths to an off-screen canvas.
 
