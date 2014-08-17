@@ -1,10 +1,16 @@
-A canvas implementation of [fontpath-renderer](https://github.com/mattdesl/fontpath-renderer), using HTML5 2D canvas.
+# fontpath-canvas
+
+[![experimental](http://badges.github.io/stability-badges/dist/experimental.svg)](http://github.com/badges/stability-badges)
+
+A canvas implementation of [fontpath-simple-renderer](https://github.com/mattdesl/fontpath-simple-renderer), using HTML5 2D canvas.
 
 This renders glyphs by decomposing their vector paths from [fontpath](https://github.com/mattdesl/fontpath) into `moveTo`, `lineTo`, etc. operations for the canvas context. This keeps it crisp for large sizes, but degrades at smaller sizes, and also presents a performance penalty. Generally this implementation is best suited for large fonts; and can be optimized by caching the paths to an off-screen canvas.
 
 For more optimized rendering (with hinting), bitmap fonts would be worth exploring.
 
 # usage
+
+[![NPM](https://nodei.co/npm/fontpath-canvas.png)](https://nodei.co/npm/fontpath-canvas)
 
 ```js
 var CanvasRenderer = require('fontpath-canvas');
@@ -22,7 +28,6 @@ renderer.layout(wrapWidth);
 //optionally set up align, underline settings, etc...
 renderer.align = CanvasRenderer.Align.LEFT;
 
-
 function render() {
 	//...
 
@@ -33,6 +38,8 @@ function render() {
 	//...
 }
 ```
+
+For full API details, see [fontpath-simple-renderer](https://github.com/mattdesl/fontpath-simple-renderer), which this module inherits from.
 
 # example
 
