@@ -15,6 +15,11 @@ var wrapWidth = 400;
 renderer.text = text;
 renderer.font = Font;
 renderer.fontSize = 32;
+
+//underline if desired:
+// renderer.underline = true
+// renderer.underlineThickness = 2
+// renderer.underlinePosition = 5
 renderer.align = 'right';
 renderer.layout(wrapWidth); 
 

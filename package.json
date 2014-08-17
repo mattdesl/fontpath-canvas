@@ -28,13 +28,12 @@
     "url": "https://github.com/mattdesl/fontpath-canvas/issues"
   },
   "homepage": "https://github.com/mattdesl/fontpath-canvas",
-  "devDependencies": {},
-  "dependencies": {
-    "fontpath-draw-glyph": "^1.0.0",
-    "fontpath-renderer": "^0.1.0"
-  },
-  "optionalDependencies": {
+  "devDependencies": {
     "fontpath-test-fonts": "0.0.4",
     "canvas-testbed": "^0.1.1"
+  },
+  "dependencies": {
+    "fontpath-draw-glyph": "^1.0.0",
+    "fontpath-renderer": "^1.0.1"
   }
 }

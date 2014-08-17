@@ -1,49 +1,49 @@
-var TextRenderer = require('fontpath-renderer');
+var TextRenderer = require('fontpath-simple-renderer');
 var decomposeGlyph = require('fontpath-draw-glyph')
 
-function CanvasRenderer(font, fontSize) {
-	TextRenderer.call(this, font, fontSize);
-	this.context = null;
-	this.strokeUnderline = false;
+function CanvasRenderer(options) {
+    if (!(this instanceof CanvasRenderer))
+        return new CanvasRenderer(options)
+    TextRenderer.call(this, options);
+
+    this.fill = draw.bind(this, true)
+    this.stroke = draw.bind(this, false)
 }
 
-//inherits from TextRenderer
-CanvasRenderer.prototype = Object.create(TextRenderer.prototype);
-CanvasRenderer.constructor = CanvasRenderer;
+CanvasRenderer.prototype = Object.create(TextRenderer.prototype)
+CanvasRenderer.constructor = CanvasRenderer
+CanvasRenderer.Align = TextRenderer.Align
 
-//export static members..
-CanvasRenderer.Align = TextRenderer.Align;
-CanvasRenderer.decomposeGlyph = decomposeGlyph;
+function draw(fill, context, x, y, start, end) {
+    if (!context)
+        throw (fill?"fill":"stroke") + "() must be specified with a canvas context"
+    var result = this.render(x, y, start, end)
 
-CanvasRenderer.prototype.renderGlyph = function(chr, glyph, scale, x, y) {
-	decomposeGlyph(this.context, glyph, scale, x, y);
-};
+    //first we will draw the underlines
+    context.beginPath()
+    for (var i=0; i<result.underlines.length; i++) {
+        var u = result.underlines[i]
+        context.rect(u.position[0], u.position[1], u.size[0], u.size[1])
+    }
+    if (fill)
+        context.fill()
+    else
+        context.stroke()
 
-CanvasRenderer.prototype.renderUnderline = function(x, y, width, height) {
-	this.context.rect(x, y, width, height);
-	//Styling the underline a different colour might be a bit tricky.
-	//ideally we want to submit all the paths in a single fill...
-};
-
-CanvasRenderer.prototype.fill = function(context, x, y, start, end) {
-	if (!context)
-		throw "fill() must be specified with a canvas context";
-	this.context = context;
-	this.strokeUnderline = false;
-	context.beginPath();
-	this.render(x, y, start, end);
-	context.fill();
-};
-
-CanvasRenderer.prototype.stroke = function(context, x, y, start, end) {
-	if (!context)
-		throw "stroke() must be specified with a canvas context";
-	this.context = context;
-	this.strokeUnderline = true;
-	context.beginPath();
-	this.render(x, y, start, end);
-	context.stroke();
-};
-
+    //now we draw the glyphs
+    context.beginPath()
+    for (var i=0; i<result.glyphs.length; i++) {
+        var gData = result.glyphs[i]
+        var glyph = gData.glyph,
+            scale = gData.scale[0],
+            x = gData.position[0],
+            y = gData.position[1]
+        decomposeGlyph(context, glyph, scale, x, y)
+    }
+    if (fill)
+        context.fill()
+    else
+        context.stroke()
+}
 
 module.exports = CanvasRenderer;
