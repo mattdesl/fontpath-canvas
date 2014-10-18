@@ -1,5 +1,6 @@
 var TextRenderer = require('fontpath-simple-renderer');
 var decomposeGlyph = require('fontpath-draw-glyph')
+var inherits = require('inherits')
 
 function CanvasRenderer(options) {
     if (!(this instanceof CanvasRenderer))
@@ -10,9 +11,7 @@ function CanvasRenderer(options) {
     this.stroke = draw.bind(this, false)
 }
 
-CanvasRenderer.prototype = Object.create(TextRenderer.prototype)
-CanvasRenderer.constructor = CanvasRenderer
-CanvasRenderer.Align = TextRenderer.Align
+inherits(CanvasRenderer, TextRenderer)
 
 function draw(fill, context, x, y, start, end) {
     if (!context)
@@ -32,13 +31,13 @@ function draw(fill, context, x, y, start, end) {
 
     //now we draw the glyphs
     context.beginPath()
-    for (var i=0; i<result.glyphs.length; i++) {
+    for (i=0; i<result.glyphs.length; i++) {
         var gData = result.glyphs[i]
         var glyph = gData.glyph,
             scale = gData.scale[0],
-            x = gData.position[0],
-            y = gData.position[1]
-        decomposeGlyph(context, glyph, scale, x, y)
+            px = gData.position[0],
+            py = gData.position[1]
+        decomposeGlyph(context, glyph, scale, px, py)
     }
     if (fill)
         context.fill()

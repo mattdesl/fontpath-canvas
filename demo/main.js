@@ -2,7 +2,6 @@ var test = require('canvas-testbed');
 
 //the font we want to render
 var Font = require('fontpath-test-fonts/lib/Inconsolata.otf');
-
 var CanvasRenderer = require('../index');
 
 var text = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque blandit dictum tortor, sed bibendum enim suscipit et. Mauris magna sapien, pellentesque a auctor id, vulputate id enim.'
@@ -20,7 +19,7 @@ renderer.fontSize = 32;
 // renderer.underline = true
 // renderer.underlineThickness = 2
 // renderer.underlinePosition = 5
-renderer.align = 'right';
+renderer.align = 'left';
 renderer.layout(wrapWidth); 
 
 var time = 0;

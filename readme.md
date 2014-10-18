@@ -26,7 +26,7 @@ renderer.text = text;
 renderer.layout(wrapWidth);
 
 //optionally set up align, underline settings, etc...
-renderer.align = CanvasRenderer.Align.LEFT;
+renderer.align = 'left';
 
 function render() {
 	//...
