@@ -34,7 +34,7 @@
   },
   "dependencies": {
     "fontpath-draw-glyph": "^1.0.0",
-    "fontpath-simple-renderer": "^1.0.0",
+    "fontpath-simple-renderer": "^4.0.0",
     "inherits": "^2.0.1"
   }
 }
